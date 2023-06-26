@@ -1,8 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import './UpdateComponents.css'
+import JobComponent from './JobComponents'
 
 function UpdateComponents() {
+    const [jobs, setJobs] = useState([])
+
+    const fetchAllJobs  = async() => {
+        const response = await fetch('http://localhost:3600/api/v1/jobs')
+        const data = await response.json()
+        console.log(data);
+        setJobs(data)
+    }
+
+    useEffect(() => {
+        fetchAllJobs()
+    }, [])
+
   return (
-    <div>UpdateComponents</div>
+    <div className='jobs'>
+        {jobs.map(job=>(
+            <JobComponent job={job}/>
+        ))}
+    </div>
   )
 }
 
